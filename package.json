@@ -7,7 +7,83 @@
         "build": "next build",
         "start": "next start",
         "storybook": "start-storybook -p 6006",
-        "build-storybook": "build-storybook"
+        "build-storybook": "build-storybook",
+        "lint": "yarn eslint .",
+        "lint:fix": "yarn eslint . --fix",
+        "prettify": "yarn prettier --write ."
+    },
+    "config": {
+        "commitizen": {
+            "path": "./node_modules/cz-conventional-changelog"
+        }
+    },
+    "commitlint": {
+        "extends": [
+            "@commitlint/config-conventional"
+        ]
+    },
+    "husky": {
+        "hooks": {
+            "pre-commit": "echo linting && lint-staged",
+            "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+            "prepare-commit-msg": "./prepare-commit-msg.cmd"
+        }
+    },
+    "lint-staged": {
+        "*.{css,less,scss,html,json,jsx,js}": [
+            "yarn prettify"
+        ],
+        "*.{js, jsx}": "yarn lint:fix"
+    },
+    "prettier": {
+        "tabWidth": 4,
+        "semi": false,
+        "printWidth": 120,
+        "endOfLine": "auto",
+        "singleQuote": true,
+        "trailingComma": "es5",
+        "overrides": [
+            {
+                "files": [
+                    "*.css",
+                    "*.scss",
+                    "*.less"
+                ],
+                "options": {
+                    "semi": true,
+                    "singleQuote": false,
+                    "printWidth": 80
+                }
+            }
+        ]
+    },
+    "eslintConfig": {
+        "ignorePatterns": [
+            "!.*",
+            ".git",
+            "dist",
+            "build",
+            "node_modules"
+        ],
+        "extends": [
+            "wesbos"
+        ],
+        "rules": {
+            "no-console": 0,
+            "react/prop-types": 0,
+            "react/jsx-props-no-spreading": 0,
+            "prettier/prettier": [
+                "error",
+                {
+                    "tabWidth": 4,
+                    "semi": false,
+                    "printWidth": 120,
+                    "endOfLine": "auto",
+                    "singleQuote": true,
+                    "trailingComma": "es5"
+                }
+            ]
+        }
     },
     "dependencies": {
         "@material-ui/core": "^4.11.3",
@@ -20,10 +96,29 @@
     },
     "devDependencies": {
         "@babel/core": "^7.13.15",
+        "@commitlint/cli": "^12.1.1",
+        "@commitlint/config-conventional": "^12.1.1",
         "@storybook/addon-actions": "^6.2.5",
         "@storybook/addon-essentials": "^6.2.5",
         "@storybook/addon-links": "^6.2.5",
         "@storybook/react": "^6.2.5",
-        "babel-loader": "^8.2.2"
+        "babel-eslint": "10.1.0",
+        "babel-loader": "^8.2.2",
+        "commitizen": "^4.2.3",
+        "conventional-changelog-cli": "^2.1.1",
+        "cz-conventional-changelog": "^3.3.0",
+        "eslint": "7.8.1",
+        "eslint-config-airbnb": "18.2.0",
+        "eslint-config-prettier": "6.11.0",
+        "eslint-config-wesbos": "1.0.1",
+        "eslint-plugin-html": "6.1.0",
+        "eslint-plugin-import": "2.22.0",
+        "eslint-plugin-jsx-a11y": "6.3.1",
+        "eslint-plugin-prettier": "3.1.4",
+        "eslint-plugin-react": "7.20.6",
+        "eslint-plugin-react-hooks": "4.1.2",
+        "husky": "4.3.8",
+        "lint-staged": "^10.5.4",
+        "prettier": "^2.2.1"
     }
 }
